@@ -1,0 +1,49 @@
+---
+- hosts: localhost
+  become: yes
+  tasks:
+    - name: Download and use the mariadb_repo_setup script to configure the MariaDB repositories for YUM
+      get_url:
+        url: https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
+        dest: /root/
+        mode: '+1'
+    
+    - name: execute mariadb_repo_setup script
+      command: './root/mariadb_repo_setup'
+
+    - name: Install MariaDB server packages
+      yum:
+        name: 
+          - https://downloads.mariadb.com/MariaDB/mariadb-10.8.5/yum/rhel8-amd64/rpms/MariaDB-client-10.8.5-1.el8.x86_64.rpm
+          - https://downloads.mariadb.com/MariaDB/mariadb-10.8.5/yum/rhel8-amd64/rpms/MariaDB-server-10.8.5-1.el8.x86_64.rpm
+          - https://downloads.mariadb.com/MariaDB/mariadb-10.8.5/yum/rhel8-amd64/rpms/MariaDB-server-debuginfo-10.8.5-1.el8.x86_64.rpm
+          - https://downloads.mariadb.com/MariaDB/mariadb-10.8.5/yum/rhel8-amd64/rpms/MariaDB-shared-10.8.5-1.el8.x86_64.rpm
+          - https://downloads.mariadb.com/MariaDB/mariadb-10.8.5/yum/rhel8-amd64/rpms/MariaDB-common-10.8.5-1.el8.x86_64.rpm
+        state: installed
+
+    - name: Install MariaDB server depencies
+      yum:
+        name: 
+          - perl-DBI
+          - libaio
+          - libsepol
+          - lsof
+          - boost-program-options
+        state: installed
+
+    - name: Start and enable MariaDB server
+      service: 
+        name: mysql
+        state: started
+        enabled: yes
+    
+    - name: get mariadb service status
+      service_facts:
+      register: mariadb_service_facts
+
+    - name: Display mariadb service status
+
+
+
+
+
