@@ -42,6 +42,10 @@
       register: mariadb_service_facts
 
     - name: Display mariadb service status
+      service:
+        name: mariadb-server
+        state: started
+        enabled: yes 
 
 
 
