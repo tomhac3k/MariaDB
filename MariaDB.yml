@@ -1,5 +1,5 @@
 ---
-- hosts: {{ host_names }}
+- hosts: "{{ host_names }}"
   become: yes
   tasks:
     - name: Download and use the mariadb_repo_setup script to configure the MariaDB repositories for YUM
